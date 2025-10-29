@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <iostream>
 
 struct Student {
     std::string m_name;         // Name
@@ -40,13 +39,11 @@ struct Student {
 namespace student_comparators {
     /**
      * @brief Compare students by surname, then by name (alphabetically)
-     * Used for Task 2: sorting students by surname and name
      */
     bool compare_by_surname_and_name(const Student& a, const Student& b);
     
     /**
      * @brief Compare students by rating (ascending order)
-     * Used for Task 4: sorting all students by rating
      */
     bool compare_by_rating(const Student& a, const Student& b);
     
@@ -64,8 +61,3 @@ namespace student_comparators {
     bool compare_by_rating(const Student& a, const Student& b);
     bool compare_by_rating_desc(const Student& a, const Student& b);
 }
-
-/**
- * @brief Overload stream operator for output
- */
-std::ostream& operator<<(std::ostream& os, const Student& student);
