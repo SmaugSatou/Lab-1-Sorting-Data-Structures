@@ -6,6 +6,14 @@
 #include "student.hpp"
 
 namespace csv {
+
+    /**
+     * @brief Split line by coma
+     * @param Line Line with student's info
+     * @return Vector of strings
+     */
+    std::vector<std::string> split_csv_line(const std::string& line);
+
     /**
      * @brief Read student data from CSV file
      * @param filename Path to the CSV file
