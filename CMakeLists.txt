@@ -4,16 +4,29 @@ project(StudentDatabase)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include_directories(include)
+include_directories(
+    include
+    include/models
+    include/database
+    include/benchmark
+    include/sorting
+    include/utils
+)
 
 set(SOURCES
-    src/student.cpp
-    src/database_appr_1.cpp
-    src/database_appr_2.cpp
-    src/database_appr_3.cpp
-    src/csv_handler.cpp
-    src/sorting.cpp
-    src/benchmark.cpp
+    src/models/student.cpp
+    
+    src/database/database_vector.cpp
+    src/database/database_hashmap.cpp
+    src/database/database_treemap.cpp
+    src/database/database_hybrid.cpp
+    
+    src/utils/csv_handler.cpp
+    
+    src/sorting/sorting.cpp
+    
+    src/benchmark/benchmark.cpp
+    
     src/main.cpp
 )
 
