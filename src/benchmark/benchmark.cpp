@@ -144,7 +144,6 @@ namespace benchmark {
         
         std::vector<OperationBenchmarkResult> all_results;
         
-        // Load full dataset
         std::vector<Student> full_data = csv::read_csv("data/students.csv");
         
         for (size_t data_size : data_sizes) {
@@ -200,21 +199,21 @@ namespace benchmark {
                                       sort_algorithms::std_sort, comparator));
         
         // Test Bubble Sort
-        if (data.size() <= 1000) {
+        if (data.size() <= 10000) {
             std::cout << "Testing Bubble Sort..." << std::endl;
             results.push_back(measure_sort<Student>("Bubble Sort", data,
                                           sort_algorithms::bubble_sort, comparator));
         }
         
         // Test Insertion Sort
-        if (data.size() <= 1000) {
+        if (data.size() <= 10000) {
             std::cout << "Testing Insertion Sort..." << std::endl;
             results.push_back(measure_sort<Student>("Insertion Sort", data,
                                           sort_algorithms::insertion_sort, comparator));
         }
         
         // Test Selection Sort
-        if (data.size() <= 1000) {
+        if (data.size() <= 10000) {
             std::cout << "Testing Selection Sort..." << std::endl;
             results.push_back(measure_sort<Student>("Selection Sort", data,
                                           sort_algorithms::selection_sort, comparator));
@@ -253,22 +252,78 @@ namespace benchmark {
             return false;
         }
         
-        // Write header
-        file << "Container,Data Size,Op1 Count,Op2 Count,Op3 Count,Total Ops,"
-             << "Duration (s),Ops/sec,Memory (bytes),Memory (MB)\n";
-        
-        // Write results
+        std::map<size_t, std::vector<OperationBenchmarkResult>> grouped_by_size;
         for (const auto& result : results) {
-            file << result.container_name << ","
-                 << result.data_size << ","
-                 << result.op1_count << ","
-                 << result.op2_count << ","
-                 << result.op3_count << ","
-                 << result.total_operations << ","
-                 << std::fixed << std::setprecision(2) << result.duration_seconds << ","
-                 << std::fixed << std::setprecision(2) << result.operations_per_second << ","
-                 << result.memory_usage_bytes << ","
-                 << std::fixed << std::setprecision(2) << result.memory_usage_mb << "\n";
+            grouped_by_size[result.data_size].push_back(result);
+        }
+        
+        // Write results grouped by data size
+        for (const auto& [size, size_results] : grouped_by_size) {
+            file << "\n=== Data Size: " << size << " ===\n";
+            file << "Container,Op1 Count,Op2 Count,Op3 Count,Total Ops,Ops/sec,Memory (MB)\n";
+            
+            for (const auto& result : size_results) {
+                file << result.container_name << ","
+                     << result.op1_count << ","
+                     << result.op2_count << ","
+                     << result.op3_count << ","
+                     << result.total_operations << ","
+                     << std::fixed << std::setprecision(2) << result.operations_per_second << ","
+                     << std::fixed << std::setprecision(2) << result.memory_usage_mb << "\n";
+            }
+        }
+        
+        file << "\n\n=== Performance Comparison (Ops/sec) ===\n";
+        file << "Container";
+        for (const auto& [size, _] : grouped_by_size) {
+            file << ",Size " << size;
+        }
+        file << "\n";
+        
+        // Get unique container names
+        std::set<std::string> containers;
+        for (const auto& result : results) {
+            containers.insert(result.container_name);
+        }
+        
+        for (const auto& container : containers) {
+            file << container;
+            for (const auto& [size, size_results] : grouped_by_size) {
+                bool found = false;
+                for (const auto& result : size_results) {
+                    if (result.container_name == container) {
+                        file << "," << std::fixed << std::setprecision(2) << result.operations_per_second;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) file << ",N/A";
+            }
+            file << "\n";
+        }
+        
+        // Memory usage comparison
+        file << "\n=== Memory Usage Comparison (MB) ===\n";
+        file << "Container";
+        for (const auto& [size, _] : grouped_by_size) {
+            file << ",Size " << size;
+        }
+        file << "\n";
+        
+        for (const auto& container : containers) {
+            file << container;
+            for (const auto& [size, size_results] : grouped_by_size) {
+                bool found = false;
+                for (const auto& result : size_results) {
+                    if (result.container_name == container) {
+                        file << "," << std::fixed << std::setprecision(2) << result.memory_usage_mb;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) file << ",N/A";
+            }
+            file << "\n";
         }
         
         file.close();
@@ -276,7 +331,6 @@ namespace benchmark {
         return true;
     }
     
-    // Save sorting results to CSV
     bool save_sort_results(const std::vector<SortBenchmarkResult>& results, 
                           const std::string& filename) {
         std::ofstream file(filename);
@@ -286,12 +340,31 @@ namespace benchmark {
             return false;
         }
         
-        file << "Algorithm,Data Size,Execution Time (ms)\n";
+        std::map<std::string, std::map<size_t, double>> grouped_results;
+        std::set<size_t> all_sizes;
         
         for (const auto& result : results) {
-            file << result.algorithm_name << ","
-                 << result.data_size << ","
-                 << std::fixed << std::setprecision(6) << result.execution_time_ms << "\n";
+            grouped_results[result.algorithm_name][result.data_size] = result.execution_time_ms;
+            all_sizes.insert(result.data_size);
+        }
+        
+        file << "Algorithm";
+        for (size_t size : all_sizes) {
+            file << ",Size " << size << " (ms)";
+        }
+        file << "\n";
+        
+        for (const auto& [algorithm, size_map] : grouped_results) {
+            file << algorithm;
+            for (size_t size : all_sizes) {
+                auto it = size_map.find(size);
+                if (it != size_map.end()) {
+                    file << "," << std::fixed << std::setprecision(3) << it->second;
+                } else {
+                    file << ",N/A";
+                }
+            }
+            file << "\n";
         }
         
         file.close();
@@ -332,7 +405,6 @@ namespace benchmark {
         std::cout << std::string(120, '=') << std::endl << std::endl;
     }
     
-    // Print sorting results to console
     void print_sort_results(const std::vector<SortBenchmarkResult>& results) {
         std::cout << "\n" << std::string(60, '=') << std::endl;
         std::cout << "SORTING BENCHMARK RESULTS" << std::endl;

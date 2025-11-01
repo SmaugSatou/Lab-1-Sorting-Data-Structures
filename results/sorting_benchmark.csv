@@ -1,0 +1,9 @@
+Algorithm,Size 100 (ms),Size 1000 (ms),Size 10000 (ms),Size 100000 (ms)
+Bubble Sort,0.553,76.900,7115.548,N/A
+Heap Sort,0.177,5.153,70.542,535.608
+Insertion Sort,0.289,40.259,3798.172,N/A
+Merge Sort,0.431,9.681,133.283,1265.193
+Quick Sort,0.104,2.322,40.681,341.038
+Radix Sort,0.100,1.056,7.366,85.960
+Selection Sort,0.250,36.139,2646.790,N/A
+std::sort,0.091,1.203,25.788,254.327

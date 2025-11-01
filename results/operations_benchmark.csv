@@ -1,0 +1,43 @@
+
+=== Data Size: 100 ===
+Container,Op1 Count,Op2 Count,Op3 Count,Total Ops,Ops/sec,Memory (MB)
+std::vector,114902,230101,2299799,2644802,264480.13,0.03
+std::unordered_map,108215,214643,2148338,2471196,247119.52,0.04
+std::map,102558,204999,2042397,2349954,234995.38,0.04
+Hybrid (unordered_map + 2x multimap indices),193888,387463,3884614,4465965,446596.40,0.06
+
+=== Data Size: 1000 ===
+Container,Op1 Count,Op2 Count,Op3 Count,Total Ops,Ops/sec,Memory (MB)
+std::vector,12150,24592,243209,279951,27995.01,0.26
+std::unordered_map,11274,22487,223570,257331,25733.08,0.36
+std::map,7911,16113,160048,184072,18407.19,0.36
+Hybrid (unordered_map + 2x multimap indices),29975,59936,600744,690655,69065.43,0.59
+
+=== Data Size: 10000 ===
+Container,Op1 Count,Op2 Count,Op3 Count,Total Ops,Ops/sec,Memory (MB)
+std::vector,1148,2080,22290,25518,2551.78,2.63
+std::unordered_map,752,1576,14956,17284,1728.37,3.57
+std::map,546,1120,10818,12484,1248.34,3.57
+Hybrid (unordered_map + 2x multimap indices),1583,3066,31524,36173,3617.28,5.87
+
+=== Data Size: 100000 ===
+Container,Op1 Count,Op2 Count,Op3 Count,Total Ops,Ops/sec,Memory (MB)
+std::vector,94,160,1742,1996,199.60,26.39
+std::unordered_map,37,69,786,892,89.20,36.22
+std::map,33,54,567,654,65.36,35.76
+Hybrid (unordered_map + 2x multimap indices),169,360,3644,4173,417.28,59.24
+
+
+=== Performance Comparison (Ops/sec) ===
+Container,Size 100,Size 1000,Size 10000,Size 100000
+Hybrid (unordered_map + 2x multimap indices),446596.40,69065.43,3617.28,417.28
+std::map,234995.38,18407.19,1248.34,65.36
+std::unordered_map,247119.52,25733.08,1728.37,89.20
+std::vector,264480.13,27995.01,2551.78,199.60
+
+=== Memory Usage Comparison (MB) ===
+Container,Size 100,Size 1000,Size 10000,Size 100000
+Hybrid (unordered_map + 2x multimap indices),0.06,0.59,5.87,59.24
+std::map,0.04,0.36,3.57,35.76
+std::unordered_map,0.04,0.36,3.57,36.22
+std::vector,0.03,0.26,2.63,26.39
