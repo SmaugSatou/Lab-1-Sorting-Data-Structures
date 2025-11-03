@@ -62,6 +62,6 @@ namespace sort_algorithms {
      * @param data Vector of Students to sort
      * @param comparator Comparison function (ascending/descending)
      */
-    void counting_sort_by_rating(std::vector<Student>& data, 
-                                 std::function<bool(const Student&, const Student&)> comparator);
+    void countingSortByRating(std::vector<Student>& data, 
+                             std::function<bool(const Student&, const Student&)> comparator);
 }

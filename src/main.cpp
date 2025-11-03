@@ -132,7 +132,7 @@ void run_sort_rating(IStudentDatabase* db, const std::string& output, const std:
         {"merge", sort_algorithms::merge_sort},
         {"quick", sort_algorithms::quick_sort},
         {"heap", sort_algorithms::heap_sort},
-        {"counting", sort_algorithms::counting_sort_by_rating}
+        {"counting", sort_algorithms::countingSortByRating}
     };
     
     auto it = algorithms.find(algorithm);

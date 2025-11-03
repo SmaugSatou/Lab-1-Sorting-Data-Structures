@@ -237,7 +237,7 @@ namespace benchmark {
         // Test Counting Sort
         std::cout << "Testing Counting Sort..." << std::endl;
         results.push_back(measure_sort<Student>("Counting Sort", data,
-                                      sort_algorithms::counting_sort_by_rating, comparator));
+                                      sort_algorithms::countingSortByRating, comparator));
         
         return results;
     }

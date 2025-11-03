@@ -202,8 +202,8 @@ namespace sort_algorithms {
     }
     
     // Counting Sort for Student rating
-    void counting_sort_by_rating(std::vector<Student>& data, 
-                                 std::function<bool(const Student&, const Student&)> comparator) {
+    void countingSortByRating(std::vector<Student>& data, 
+                             std::function<bool(const Student&, const Student&)> comparator) {
         if (data.empty()) {
             return;
         }
@@ -219,28 +219,28 @@ namespace sort_algorithms {
         }
         
         // Convert ratings to integers
-        std::vector<std::pair<int, size_t>> indexed_ratings;
-        indexed_ratings.reserve(data.size());
+        std::vector<std::pair<int, size_t>> indexedRatings;
+        indexedRatings.reserve(data.size());
         
         for (size_t i = 0; i < data.size(); ++i) {
-            int rating_int = static_cast<int>(data[i].m_rating * 100.0f);
-            indexed_ratings.push_back({rating_int, i});
+            int ratingInt = static_cast<int>(data[i].m_rating * 100.0f);
+            indexedRatings.push_back({ratingInt, i});
         }
         
-        const int MAX_RATING = 10000;
-        std::vector<int> count(MAX_RATING + 1, 0);
+        const int maxRating = 10000;
+        std::vector<int> count(maxRating + 1, 0);
         
-        for (const auto& pair : indexed_ratings) {
+        for (const auto& pair : indexedRatings) {
             count[pair.first]++;
         }
         
         // Cumulative count
         if (ascending) {
-            for (int i = 1; i <= MAX_RATING; ++i) {
+            for (int i = 1; i <= maxRating; ++i) {
                 count[i] += count[i - 1];
             }
         } else {
-            for (int i = MAX_RATING - 1; i >= 0; --i) {
+            for (int i = maxRating - 1; i >= 0; --i) {
                 count[i] += count[i + 1];
             }
         }
@@ -248,17 +248,17 @@ namespace sort_algorithms {
         std::vector<Student> output(data.size());
         
         if (ascending) {
-            for (int i = indexed_ratings.size() - 1; i >= 0; --i) {
-                int rating = indexed_ratings[i].first;
-                size_t orig_index = indexed_ratings[i].second;
-                output[count[rating] - 1] = data[orig_index];
+            for (int i = indexedRatings.size() - 1; i >= 0; --i) {
+                int rating = indexedRatings[i].first;
+                size_t origIndex = indexedRatings[i].second;
+                output[count[rating] - 1] = data[origIndex];
                 count[rating]--;
             }
         } else {
-            for (int i = indexed_ratings.size() - 1; i >= 0; --i) {
-                int rating = indexed_ratings[i].first;
-                size_t orig_index = indexed_ratings[i].second;
-                output[count[rating] - 1] = data[orig_index];
+            for (int i = indexedRatings.size() - 1; i >= 0; --i) {
+                int rating = indexedRatings[i].first;
+                size_t origIndex = indexedRatings[i].second;
+                output[count[rating] - 1] = data[origIndex];
                 count[rating]--;
             }
         }
