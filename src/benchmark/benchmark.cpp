@@ -234,10 +234,10 @@ namespace benchmark {
         results.push_back(measure_sort<Student>("Heap Sort", data,
                                       sort_algorithms::heap_sort, comparator));
         
-        // Test Radix Sort
-        std::cout << "Testing Radix Sort..." << std::endl;
-        results.push_back(measure_sort<Student>("Radix Sort", data,
-                                      sort_algorithms::radix_sort_by_rating, comparator));
+        // Test Counting Sort
+        std::cout << "Testing Counting Sort..." << std::endl;
+        results.push_back(measure_sort<Student>("Counting Sort", data,
+                                      sort_algorithms::counting_sort_by_rating, comparator));
         
         return results;
     }

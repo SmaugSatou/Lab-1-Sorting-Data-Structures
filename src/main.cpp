@@ -27,7 +27,7 @@ void print_usage(const char* program_name) {
     std::cout << "                       Sort by rating and save\n";
     std::cout << "                       Output: results/sorted_output.csv (default)\n";
     std::cout << "                       Algorithms: std, bubble, insertion, selection,\n";
-    std::cout << "                                   merge, quick, heap, radix\n";
+    std::cout << "                                   merge, quick, heap, counting\n";
     std::cout << "                       Default algorithm: quick\n";
     std::cout << "  help                 Show this help\n";
 }
@@ -51,7 +51,7 @@ void run_operations_benchmark_mode() {
 
 void run_sorting_benchmark_mode() {
     std::cout << "Sorting Algorithms Benchmark (S2: rating)\n";
-    std::cout << "Algorithms: std::sort, bubble, insertion, selection, merge, quick, heap, radix\n";
+    std::cout << "Algorithms: std::sort, bubble, insertion, selection, merge, quick, heap, counting\n";
     std::cout << "Note: O(n^2) algorithms tested only on n <= 10000\n\n";
     
     std::vector<Student> full_data = csv::read_csv("data/students.csv");
@@ -132,7 +132,7 @@ void run_sort_rating(IStudentDatabase* db, const std::string& output, const std:
         {"merge", sort_algorithms::merge_sort},
         {"quick", sort_algorithms::quick_sort},
         {"heap", sort_algorithms::heap_sort},
-        {"radix", sort_algorithms::radix_sort_by_rating}
+        {"counting", sort_algorithms::counting_sort_by_rating}
     };
     
     auto it = algorithms.find(algorithm);
@@ -206,7 +206,7 @@ int main(int argc, char* argv[]) {
         
         if (argc == 3) {
             static const std::vector<std::string> known_algorithms = {
-                "std", "bubble", "insertion", "selection", "merge", "quick", "heap", "radix"
+                "std", "bubble", "insertion", "selection", "merge", "quick", "heap", "counting"
             };
             if (std::find(known_algorithms.begin(), known_algorithms.end(), argv[2]) != known_algorithms.end()) {
                 algorithm = argv[2];

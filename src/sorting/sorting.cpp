@@ -201,9 +201,9 @@ namespace sort_algorithms {
         std::sort(data.begin(), data.end(), comparator);
     }
     
-    // Radix Sort for Student rating
-    void radix_sort_by_rating(std::vector<Student>& data, 
-                             std::function<bool(const Student&, const Student&)> comparator) {
+    // Counting Sort for Student rating
+    void counting_sort_by_rating(std::vector<Student>& data, 
+                                 std::function<bool(const Student&, const Student&)> comparator) {
         if (data.empty()) {
             return;
         }

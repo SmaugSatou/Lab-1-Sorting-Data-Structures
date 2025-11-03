@@ -56,12 +56,12 @@ namespace sort_algorithms {
     void std_sort(std::vector<Student>& data, std::function<bool(const Student&, const Student&)> comparator);
     
     /**
-     * @brief Radix Sort implementation for floating point values (rating)
+     * @brief Counting Sort implementation for floating point values (rating)
      * This is a custom implementation optimized for Student rating sorting
-     * Uses counting sort on the integer and fractional parts separately
+     * Uses counting sort directly on discretized rating values
      * @param data Vector of Students to sort
      * @param comparator Comparison function (ascending/descending)
      */
-    void radix_sort_by_rating(std::vector<Student>& data, 
-                             std::function<bool(const Student&, const Student&)> comparator);
+    void counting_sort_by_rating(std::vector<Student>& data, 
+                                 std::function<bool(const Student&, const Student&)> comparator);
 }
